@@ -121,6 +121,7 @@ function App() {
       const code = data.code;
 
       addMessage({ text: code, type: "code", role: "system" });
+      addMessage({ text: data.text, type: "message", role: "system" });
 
       if (response.status != 200) {
         setWaitingForSystem(WaitingStates.Idle);
@@ -154,9 +155,9 @@ function App() {
     });
   }
 
-  function completeUpload(filename: string) {
+  function completeUpload(message: string) {
     addMessage({
-      text: `File ${filename} was uploaded successfully.`,
+      text: message,
       type: "message",
       role: "system",
     });
@@ -170,7 +171,7 @@ function App() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        prompt: `File ${filename} was uploaded successfully.`,
+        prompt: message,
       }),
     })
       .then(() => {})
